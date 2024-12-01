@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router";
+import { Link } from "react-router";
 import { IMovie } from "../model/IMovie";
 import { useMyViewTransitionStyle } from "../hooks/useMyViewTranstionStyle";
 
@@ -6,19 +6,13 @@ interface Props {
   movie: IMovie;
 }
 export const ContentCard = ({ movie }: Props) => {
-  const [searchParams] = useSearchParams();
-
   const href = "/" + movie.imdbID;
   const imgStyle = useMyViewTransitionStyle(href, "image-expand");
   const titleStyle = useMyViewTransitionStyle(href, "title-expand");
   const cardStyle = useMyViewTransitionStyle(href, "card-expand");
 
   return (
-    <Link
-      viewTransition
-      to={{ pathname: href, search: searchParams.toString() }}
-      state={movie}
-    >
+    <Link viewTransition to={href} state={movie}>
       <div
         key={movie.imdbID}
         className="overflow-hidden rounded-lg bg-white shadow-md"

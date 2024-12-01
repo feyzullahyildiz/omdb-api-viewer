@@ -19,7 +19,7 @@ const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
     },
   });
   if (data.Response !== "True") {
-    throw new Error("Hata");
+    throw new Error("No data found");
   }
   return data;
 };
