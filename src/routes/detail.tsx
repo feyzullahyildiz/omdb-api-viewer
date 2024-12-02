@@ -1,37 +1,13 @@
 import { useParams, useLocation, useNavigate, Navigate } from "react-router";
 import { IMovie } from "../model/IMovie";
 import { useClickOutside } from "@mantine/hooks";
-import { useMyViewTransitionStyle } from "../hooks/useMyViewTranstionStyle";
-import {
-  useQuery,
-  QueryFunctionContext,
-  QueryKey,
-} from "@tanstack/react-query";
-import { api } from "../api";
-import { IDetailedMovie } from "../model/IDetailedMovie";
-
-const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
-  const [_, id] = context.queryKey as any;
-
-  const { data } = await api.get<IDetailedMovie>("/", {
-    params: {
-      i: id,
-    },
-  });
-  if (data.Response !== "True") {
-    throw new Error("No data found");
-  }
-  return data;
-};
+import { useFetchMovieById, useMyViewTransitionStyle } from "../hooks";
 
 export const DetailPage = () => {
   const params = useParams();
   const href = `/${params.id}`;
 
-  const { data } = useQuery({
-    queryKey: ["getById", params.id],
-    queryFn: fetcher,
-  });
+  const { data } = useFetchMovieById(params.id!);
   const location = useLocation();
   const navigatiton = useNavigate();
 
@@ -46,7 +22,7 @@ export const DetailPage = () => {
 
   const movie = location.state as IMovie;
   if (!movie) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
 
   return (

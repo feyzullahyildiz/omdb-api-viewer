@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { IMovie } from "../model/IMovie";
-import { useMyViewTransitionStyle } from "../hooks/useMyViewTranstionStyle";
+import { useMyViewTransitionStyle } from "../hooks";
 
 interface Props {
   movie: IMovie;

@@ -1,35 +1,11 @@
 import { useCallback } from "react";
-import {
-  useQuery,
-  QueryFunctionContext,
-  QueryKey,
-} from "@tanstack/react-query";
-import { IMovie } from "../model/IMovie";
-import { api } from "../api";
+
 import { ContentCard } from "../components/ContentCard";
 import { Paginator } from "../components/Paginator";
 import { Outlet } from "react-router";
 import { parseAsInteger, parseAsStringEnum, useQueryState } from "nuqs";
+import { useFetchMovies } from "../hooks";
 
-const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
-  const [_, search, type, page] = context.queryKey as any;
-
-  const { data } = await api.get<{
-    Search: IMovie[];
-    Response: string;
-    totalResults: string;
-  }>("/", {
-    params: {
-      s: search,
-      type: type === "all" ? null : type,
-      page,
-    },
-  });
-  if (data.Response !== "True") {
-    throw new Error("Hata");
-  }
-  return { ...data, totalResults: +data.totalResults };
-};
 export const IndexPage = () => {
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const [type, setType] = useQueryState(
@@ -41,12 +17,7 @@ export const IndexPage = () => {
     defaultValue: "ali",
   });
   // TODO add skeleton cards with isLoading
-  const { data, error } = useQuery({
-    queryKey: ["search", search, type, page],
-    queryFn: fetcher,
-    enabled: !!(search && search.length >= 2),
-  });
-
+  const { data, error } = useFetchMovies(search, type, page);
   // Type değişince sayfa 1'e gitmeliyiz
   const wrappedOnSetType = useCallback((e: any) => {
     setPage(1);
