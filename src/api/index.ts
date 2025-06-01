@@ -7,7 +7,7 @@ export const api = axios.create({
 api.interceptors.request.use((config) => {
     config.params = {
         ...config.params,
-        apikey: import.meta.env.VITE_OMDB_API_KEY,
+        apikey: import.meta.env.VITE_OMDB_API_KEY || window.prompt("Enter your API key"),
       };
     return config
 })
