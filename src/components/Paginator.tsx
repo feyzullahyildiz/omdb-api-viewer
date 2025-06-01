@@ -1,4 +1,3 @@
-import React from "react";
 
 interface Props {
   totalResults: number;
@@ -45,7 +44,7 @@ export const Paginator = ({ totalResults, page, setPage }: Props) => {
       >
         Previous
       </button>
-      {getPageNumbers().map((p, index) =>
+      {getPageNumbers().map((p) =>
         p === "start-ellipsis" || p === "end-ellipsis" ? (
           <span key={p} className="px-2">
             ...
