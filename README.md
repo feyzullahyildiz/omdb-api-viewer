@@ -1,3 +1,7 @@
+# Demo
+- https://omdb-api-viewer.netlify.app/
+- You need to get your own OMDB API KEY from https://www.omdbapi.com/apikey.aspx
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
